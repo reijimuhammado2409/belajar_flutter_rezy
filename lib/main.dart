@@ -1,6 +1,8 @@
 import 'package:belajar_flutter_rezy/day_7/percobaan.dart';
 import 'package:belajar_flutter_rezy/day_7/sidebox.dart';
 import 'package:belajar_flutter_rezy/day_7/tugas_2.dart';
+import 'package:belajar_flutter_rezy/tugas3&4/tugas3.dart';
+import 'package:belajar_flutter_rezy/tugas3&4/tugas4.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -33,7 +35,7 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: .fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: Tugas2(),
+      home: Tugas3(),
     );
   }
 }
