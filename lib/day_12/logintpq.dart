@@ -1,14 +1,15 @@
+import 'package:belajar_flutter_rezy/day_12/dashboardTPQ.dart';
 import 'package:flutter/material.dart';
-import 'tugas8.dart';
+import 'dashboardTPQ.dart';
 
-class Tugas7 extends StatefulWidget {
-  const Tugas7({super.key});
+class LoginTPQ extends StatefulWidget {
+  const LoginTPQ({super.key});
 
   @override
-  State<Tugas7> createState() => _Tugas7State();
+  State<LoginTPQ> createState() => _LoginTPQState();
 }
 
-class _Tugas7State extends State<Tugas7> {
+class _LoginTPQState extends State<LoginTPQ> {
 
   bool isObscure = true;
   bool isLoading = false;
@@ -27,7 +28,7 @@ class _Tugas7State extends State<Tugas7> {
 
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (_) => const Tugas8()),
+      MaterialPageRoute(builder: (_) => const DashboardTPQ()),
     );
   }
 

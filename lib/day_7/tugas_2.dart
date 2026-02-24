@@ -199,16 +199,6 @@ class Tugas2 extends StatelessWidget {
             ),
           ),
 
-          //baris 6 - visual branding 
-          // SizedBox(height: 20),
-
-          // SizedBox(height: 15),
-          // Container(
-          //   width: double.infinity,
-          //   height: 60,
-          //   child: Center(child: Image.asset("assets/images/priasolo.jpg")),
-          // ),
-
           SizedBox(height: 20),
 
           Container(
