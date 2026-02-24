@@ -1,6 +1,8 @@
 import 'package:belajar_flutter_rezy/day_12/dashboardTPQ.dart';
+import 'package:belajar_flutter_rezy/day_12/main_navigation.dart';
 import 'package:flutter/material.dart';
 import 'dashboardTPQ.dart';
+import 'main_navigation.dart';
 
 class LoginTPQ extends StatefulWidget {
   const LoginTPQ({super.key});
@@ -28,7 +30,7 @@ class _LoginTPQState extends State<LoginTPQ> {
 
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (_) => const DashboardTPQ()),
+      MaterialPageRoute(builder: (_) => const MainNavigation()),
     );
   }
 
