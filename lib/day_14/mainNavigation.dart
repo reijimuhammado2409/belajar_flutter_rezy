@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'DashboardTPQ.dart';
+import 'dashb0ardtpq.dart';
+import 'list.dart';
+import 'map.dart';
+import 'model.dart';
 
 class MainNavigation extends StatefulWidget {
   const MainNavigation({super.key});
@@ -13,8 +16,11 @@ class _MainNavigationState extends State<MainNavigation> {
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [
-    const DashboardTPQ(),   // Tab Home (Tugas 7 + Drawer aktif)
-    const TentangAplikasi(), // Tab Tentang
+    const Dashb0ardtpq(),
+    const SoalList(),
+    const SoalMap(),
+    const SoalModel(),
+    const TentangAplikasi(),
   ];
 
   void _onItemTapped(int index) {
@@ -27,18 +33,38 @@ class _MainNavigationState extends State<MainNavigation> {
   Widget build(BuildContext context) {
     return Scaffold(
 
-      // Body berubah sesuai tab
-      body: _pages[_selectedIndex],
+      // 🔥 FIX UTAMA → biar navbar stabil
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: _pages,
+      ),
 
-      // Bottom Navigation
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed, // WAJIB kalau item banyak
+
+        backgroundColor: Colors.white,
+        selectedItemColor: const Color(0xFF0F9D58),
+        unselectedItemColor: Colors.grey,
+
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
-        selectedItemColor: const Color(0xFF0F9D58),
+
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: "Home",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.list),
+            label: "List",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.map),
+            label: "Map",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: "Model",
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.info),
@@ -80,8 +106,8 @@ class TentangAplikasi extends StatelessWidget {
 
             Text(
               "Aplikasi ini digunakan untuk membantu pengajar TPQ "
-              "dalam mengelola data santri, absensi, dan perkembangan belajar."
-              "untuk calon my bini freya jayawardhana : )",
+              "dalam mengelola data santri, absensi, dan perkembangan belajar. "
+              "Segitu dulu pak, pusing pala saya  :(",
               style: TextStyle(fontSize: 16),
             ),
 
@@ -92,7 +118,7 @@ class TentangAplikasi extends StatelessWidget {
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
 
-            Text("Nama: your husband"),
+            Text("Nama: penyakit koding gila"),
             Text("Versi: 1.0.0"),
           ],
         ),
