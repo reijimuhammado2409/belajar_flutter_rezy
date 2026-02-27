@@ -1,124 +1,124 @@
-import 'package:belajar_flutter_rezy/day_15/dashboard_TPQ.dart';
-import 'package:flutter/material.dart';
+// import 'package:belajar_flutter_rezy/day_15/dashboard_TPQ.dart';
+// import 'package:flutter/material.dart';
 
 
-class BottomNavigation extends StatefulWidget {
-  const BottomNavigation({super.key});
+// class BottomNavigation extends StatefulWidget {
+//   const BottomNavigation({super.key});
 
-  @override
-  State<BottomNavigation> createState() => _BottomNavigationState();
-}
+//   @override
+//   State<BottomNavigation> createState() => _BottomNavigationState();
+// }
 
-class _BottomNavigationState extends State<BottomNavigation> {
+// class _BottomNavigationState extends State<BottomNavigation> {
 
-  int _selectedIndex = 0;
+//   int _selectedIndex = 0;
 
-  final List<Widget> _pages = [
-    const Dashboard_TPQ(),
+//   final List<Widget> _pages = [
+//     const Dashboard_TPQ(),
     
-    const TentangAplikasi(),
-  ];
+//     const TentangAplikasi(),
+//   ];
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
+//   void _onItemTapped(int index) {
+//     setState(() {
+//       _selectedIndex = index;
+//     });
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
 
-      // 🔥 FIX UTAMA → biar navbar stabil
-      body: IndexedStack(
-        index: _selectedIndex,
-        children: _pages,
-      ),
+//       // 🔥 FIX UTAMA → biar navbar stabil
+//       body: IndexedStack(
+//         index: _selectedIndex,
+//         children: _pages,
+//       ),
 
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed, // WAJIB kalau item banyak
+//       bottomNavigationBar: BottomNavigationBar(
+//         type: BottomNavigationBarType.fixed, // WAJIB kalau item banyak
 
-        backgroundColor: Colors.white,
-        selectedItemColor: const Color(0xFF0F9D58),
-        unselectedItemColor: Colors.grey,
+//         backgroundColor: Colors.white,
+//         selectedItemColor: const Color(0xFF0F9D58),
+//         unselectedItemColor: Colors.grey,
 
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
+//         currentIndex: _selectedIndex,
+//         onTap: _onItemTapped,
 
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: "Home",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.list),
-            label: "List",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.map),
-            label: "Map",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: "Model",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.info),
-            label: "Tentang",
-          ),
-        ],
-      ),
-    );
-  }
-}
+//         items: const [
+//           BottomNavigationBarItem(
+//             icon: Icon(Icons.home),
+//             label: "Home",
+//           ),
+//           BottomNavigationBarItem(
+//             icon: Icon(Icons.list),
+//             label: "List",
+//           ),
+//           BottomNavigationBarItem(
+//             icon: Icon(Icons.map),
+//             label: "Map",
+//           ),
+//           BottomNavigationBarItem(
+//             icon: Icon(Icons.person),
+//             label: "Model",
+//           ),
+//           BottomNavigationBarItem(
+//             icon: Icon(Icons.info),
+//             label: "Tentang",
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
 
-class TentangAplikasi extends StatelessWidget {
-  const TentangAplikasi({super.key});
+// class TentangAplikasi extends StatelessWidget {
+//   const TentangAplikasi({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Tentang Aplikasi"),
-        centerTitle: true,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: const Text("Tentang Aplikasi"),
+//         centerTitle: true,
+//       ),
+//       body: Padding(
+//         padding: const EdgeInsets.all(20.0),
+//         child: Column(
+//           crossAxisAlignment: CrossAxisAlignment.start,
+//           children: const [
 
-            SizedBox(height: 20),
+//             SizedBox(height: 20),
 
-            Text(
-              "Al-Hafizh App",
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+//             Text(
+//               "Al-Hafizh App",
+//               style: TextStyle(
+//                 fontSize: 22,
+//                 fontWeight: FontWeight.bold,
+//               ),
+//             ),
 
-            SizedBox(height: 15),
+//             SizedBox(height: 15),
 
-            Text(
-              "Aplikasi ini digunakan untuk membantu pengajar TPQ "
-              "dalam mengelola data santri, absensi, dan perkembangan belajar. "
-              "Segitu dulu pak, pusing pala saya  :(",
-              style: TextStyle(fontSize: 16),
-            ),
+//             Text(
+//               "Aplikasi ini digunakan untuk membantu pengajar TPQ "
+//               "dalam mengelola data santri, absensi, dan perkembangan belajar. "
+//               "Segitu dulu pak, pusing pala saya  :(",
+//               style: TextStyle(fontSize: 16),
+//             ),
 
-            SizedBox(height: 20),
+//             SizedBox(height: 20),
 
-            Text(
-              "Dibuat oleh:",
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
+//             Text(
+//               "Dibuat oleh:",
+//               style: TextStyle(fontWeight: FontWeight.bold),
+//             ),
 
-            Text("Nama: penyakit koding gila"),
-            Text("Versi: 1.0.0"),
-          ],
-        ),
-      ),
-    );
-  }
-}
+//             Text("Nama: penyakit koding gila"),
+//             Text("Versi: 1.0.0"),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }

@@ -4,8 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 class Dashboard_TPQ extends StatefulWidget {
+
+  final String nama;
+  final String gmail;
   
-  const Dashboard_TPQ({super.key});
+  const Dashboard_TPQ({super.key,
+
+  required this.nama,
+  required this.gmail,
+
+  });
 
   @override
   State<Dashboard_TPQ> createState() => _Dashboard_TPQState();
@@ -181,11 +189,11 @@ class _Dashboard_TPQState extends State<Dashboard_TPQ> {
                   ),
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child: const Column(
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Assalamu’alaikum",
+                      "Assalamu’alaikum, ${widget.gmail}",
                       style: TextStyle(
                         color: Colors.white,
                         fontFamily: "Poppins",
@@ -195,7 +203,7 @@ class _Dashboard_TPQState extends State<Dashboard_TPQ> {
                     ),
                     SizedBox(height: 6),
                     Text(
-                      "Selamat datang di Al-Hafizh App dari TPQ Al-Mu'minin",
+                      "Selamat datang ${widget.nama} di Al-Hafizh App dari TPQ Al-Mu'minin",
                       style: TextStyle(
                         fontFamily: "Poppins",
                         color: Colors.white70,),

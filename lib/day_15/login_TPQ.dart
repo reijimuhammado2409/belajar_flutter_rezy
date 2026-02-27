@@ -10,6 +10,7 @@ class Login_TPQ extends StatefulWidget {
   const Login_TPQ({super.key});
 
   @override
+ 
   State<Login_TPQ> createState() => _Login_TPQState();
 }
 
@@ -37,13 +38,26 @@ class _Login_TPQState extends State<Login_TPQ> {
       isLoading = false;
     });
 
+    String gmail = emailController.text;
+    String nama = gmail.split("@")[0];
+
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (_) => const BottomNavigation()),
+      MaterialPageRoute(builder: (_) => Dashboard_TPQ(
+        nama:  nama,
+        gmail: gmail,
+      ),),
     );
   }
 
   @override
+
+   void dispose(){
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,

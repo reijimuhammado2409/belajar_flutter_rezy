@@ -1,16 +1,16 @@
-import 'package:belajar_flutter_rezy/day10/percobaan10.dart';
-import 'package:belajar_flutter_rezy/day10/tugas5.dart';
-import 'package:belajar_flutter_rezy/day_11/login.dart';
-import 'package:belajar_flutter_rezy/day_12/logintpq.dart';
+// import 'package:belajar_flutter_rezy/day10/percobaan10.dart';
+// import 'package:belajar_flutter_rezy/day10/tugas5.dart';
+// import 'package:belajar_flutter_rezy/day_11/login.dart';
+// import 'package:belajar_flutter_rezy/day_12/logintpq.dart';
 import 'package:belajar_flutter_rezy/day_14/L0gintpq.dart';
 import 'package:belajar_flutter_rezy/day_14/model.dart';
 import 'package:belajar_flutter_rezy/day_15/login_TPQ.dart';
 import 'package:belajar_flutter_rezy/day_15/register_TPQ.dart';
-import 'package:belajar_flutter_rezy/day_7/percobaan.dart';
-import 'package:belajar_flutter_rezy/day_7/sidebox.dart';
-import 'package:belajar_flutter_rezy/day_7/tugas_2.dart';
-import 'package:belajar_flutter_rezy/tugas3&4/tugas3.dart';
-import 'package:belajar_flutter_rezy/tugas3&4/tugas4.dart';
+// import 'package:belajar_flutter_rezy/day_7/percobaan.dart';
+// import 'package:belajar_flutter_rezy/day_7/sidebox.dart';
+// import 'package:belajar_flutter_rezy/day_7/tugas_2.dart';
+// import 'package:belajar_flutter_rezy/tugas3&4/tugas3.dart';
+// import 'package:belajar_flutter_rezy/tugas3&4/tugas4.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: .fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: Register_TPQ(),
+      home: Login_TPQ(),
     );
   }
 }
