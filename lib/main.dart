@@ -6,6 +6,7 @@ import 'package:belajar_flutter_rezy/day_14/L0gintpq.dart';
 import 'package:belajar_flutter_rezy/day_14/model.dart';
 import 'package:belajar_flutter_rezy/day_15/login_TPQ.dart';
 import 'package:belajar_flutter_rezy/day_15/register_TPQ.dart';
+import 'package:belajar_flutter_rezy/day_16/view/splash_screen.dart';
 // import 'package:belajar_flutter_rezy/day_7/percobaan.dart';
 // import 'package:belajar_flutter_rezy/day_7/sidebox.dart';
 // import 'package:belajar_flutter_rezy/day_7/tugas_2.dart';
@@ -43,7 +44,7 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: .fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: Login_TPQ(),
+      home: SplashScreen(),
     );
   }
 }
