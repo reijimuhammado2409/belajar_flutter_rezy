@@ -1,64 +1,89 @@
-// import 'package:belajar_flutter_rezy/day_14/dashb0ardTPQ.dart';
-// import 'package:belajar_flutter_rezy/day_14/mainNavigation.dart';
-import 'package:belajar_flutter_rezy/day_16/view/dashboard_screen.dart';
-import 'package:belajar_flutter_rezy/day_16/view/register_screen.dart';
+import 'package:belajar_flutter_rezy/day_16/view/navbar/bottomNavbar_screen.dart';
 import 'package:flutter/material.dart';
 import '../database/preference.dart';
+import '../database/sqflite.dart';
+import '../models/user_model.dart';
+import 'dashboard_screen.dart';
+import 'register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
   @override
- 
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-
+  /// ===============================
+  /// FORM KEY
+  /// ===============================
   final _formKey = GlobalKey<FormState>();
 
-  final TextEditingController emailController = TextEditingController();
+  /// CONTROLLER INPUT
+  final TextEditingController gmailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+
+  /// DATABASE HELPER
+  final DBHelper dbHelper = DBHelper();
 
   bool isObscure = true;
   bool isLoading = false;
 
+  /// ===============================
+  /// FUNCTION LOGIN (SQFLITE AUTH)
+  /// ===============================
   void handleLogin() async {
-
+    /// validasi form dulu
     if (!_formKey.currentState!.validate()) return;
 
-    setState(() {
-      isLoading = true;
-    });
+    setState(() => isLoading = true);
 
-    await Future.delayed(const Duration(seconds: 3));
+    /// ambil input user
+    final gmail = gmailController.text.trim();
+    final password = passwordController.text.trim();
 
-    await Preferences.setLogin(true);
+    /// cek user di database
+    UserModel? user = await dbHelper.loginUser(gmail, password);
 
-    setState(() {
-      isLoading = false;
-    });
+    setState(() => isLoading = false);
 
-    String gmail = emailController.text;
-    String nama = gmail.split("@")[0];
+    /// jika user ditemukan
+    if (user != null) {
+      /// simpan status login
+      await Preferences.setLogin(true);
 
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (_) => DashboardScreen(
-        nama:  nama,
-        gmail: gmail,
-      ),),
-    );
+      /// pindah ke dashboard
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (_) => BottomNavbar(nama: user.nama, gmail: user.gmail),
+        ),
+      );
+    } else {
+      /// jika login gagal
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Gmail atau Password salah"),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
   }
 
+  /// ===============================
+  /// DISPOSE CONTROLLER
+  /// ===============================
   @override
-
-   void dispose(){
-    emailController.dispose();
+  void dispose() {
+    gmailController.dispose();
     passwordController.dispose();
     super.dispose();
   }
 
+  /// ===============================
+  /// UI LOGIN
+  /// ===============================
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
@@ -66,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(24.0),
+            padding: const EdgeInsets.all(24),
 
             child: Form(
               key: _formKey,
@@ -74,15 +99,15 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-
                   const SizedBox(height: 40),
 
+                  /// LOGO
                   Image.asset("assets/images/LogoTPQ.jpeg"),
 
                   const SizedBox(height: 20),
 
                   const Text(
-                    "Login Tes!",
+                    "Login",
                     style: TextStyle(
                       fontFamily: "Poppins",
                       fontSize: 26,
@@ -99,18 +124,20 @@ class _LoginScreenState extends State<LoginScreen> {
 
                   const SizedBox(height: 35),
 
-                  /// EMAIL
+                  /// ===============================
+                  /// INPUT GMAIL
+                  /// ===============================
                   TextFormField(
-                    controller: emailController,
+                    controller: gmailController,
                     decoration: InputDecoration(
-                      labelText: "Email",
+                      labelText: "Gmail",
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(14),
                       ),
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return "Email wajib diisi";
+                        return "Gmail wajib diisi";
                       }
                       if (!value.endsWith("@gmail.com")) {
                         return "Gunakan @gmail.com";
@@ -121,7 +148,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
                   const SizedBox(height: 18),
 
-                  /// PASSWORD
+                  /// ===============================
+                  /// INPUT PASSWORD
+                  /// ===============================
                   TextFormField(
                     controller: passwordController,
                     obscureText: isObscure,
@@ -154,6 +183,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
                   const SizedBox(height: 28),
 
+                  /// ===============================
+                  /// BUTTON LOGIN
+                  /// ===============================
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
@@ -180,19 +212,23 @@ class _LoginScreenState extends State<LoginScreen> {
                               style: TextStyle(
                                 fontFamily: "Poppins",
                                 fontSize: 15,
-                                fontWeight: FontWeight.w600),
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                     ),
                   ),
 
                   const SizedBox(height: 20),
 
+                  /// PINDAH REGISTER
                   Center(
                     child: TextButton(
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (_) => const Register_Screen()),
+                          MaterialPageRoute(
+                            builder: (_) => const Register_Screen(),
+                          ),
                         );
                       },
                       child: const Text(
@@ -201,8 +237,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                   ),
-
-                  const SizedBox(height: 20),
                 ],
               ),
             ),

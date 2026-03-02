@@ -1,39 +1,102 @@
-import 'package:belajar_flutter_rezy/day_16/models/user_model.dart';
-import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
+import '../models/user_model.dart';
+import '../models/siswa_model.dart';
 
-class DBHelper{
-  static Future<Database> db() async{
-     final dbPath = await getDatabasesPath();
-     return openDatabase(
-      join(dbPath, 'al-hafizh.db'),
-      onCreate: (db, version){
-        return db.execute(
-          'CREATE TABEL iser (id INTEGER PRIMARY KEY, email TEXT, password TEXT)'
-        );
+class DBHelper {
+  static Database? _database;
+
+  Future<Database> get database async {
+    if (_database != null) return _database!;
+    _database = await initDB();
+    return _database!;
+  }
+
+  /// ===============================
+  /// INIT DATABASE
+  /// ===============================
+  Future<Database> initDB() async {
+    final path = join(await getDatabasesPath(), 'tpq.db');
+
+    return await openDatabase(
+      path,
+      version: 2, // 🔥 NAIKKAN VERSION
+      onCreate: (db, version) async {
+        /// TABLE USERS
+        await db.execute('''
+          CREATE TABLE users(
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nama TEXT,
+            gmail TEXT UNIQUE,
+            password TEXT
+          )
+        ''');
+
+        /// TABLE SISWA
+        await db.execute('''
+          CREATE TABLE siswa(
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nama TEXT,
+            email TEXT,
+            noHp TEXT,
+            kota TEXT
+          )
+        ''');
       },
-      version: 1,
-     );
+
+      /// kalau update database lama
+      onUpgrade: (db, oldVersion, newVersion) async {
+        if (oldVersion < 2) {
+          await db.execute('''
+            CREATE TABLE siswa(
+              id INTEGER PRIMARY KEY AUTOINCREMENT,
+              nama TEXT,
+              email TEXT,
+              noHp TEXT,
+              kota TEXT
+            )
+          ''');
+        }
+      },
+    );
   }
 
-  static Future<void>registerUser(UserModel user) async{
-    final dbs = await db();
-    await dbs.insert('user', user.toMap());
+  /// INSERT USER
+  Future<int> insertUser(UserModel user) async {
+    final db = await database;
+    return await db.insert(
+      'users',
+      user.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
   }
 
-  static Future<UserModel?> loginUser({
-    required String email,
-    required String password,
-  })async{
-    final dbs = await db();
-    final List<Map<String, dynamic>> results = await dbs.query(
-      "User",
-      where: 'email = ? AND passworrd = ?',
-      whereArgs: [email, password],
-      );
-      if(results.isNotEmpty){
-        return UserModel.fromMap(results.first);
-      }
-      return null;
+  /// LOGIN USER
+  Future<UserModel?> loginUser(String gmail, String password) async {
+    final db = await database;
+
+    final result = await db.query(
+      'users',
+      where: 'gmail = ? AND password = ?',
+      whereArgs: [gmail, password],
+    );
+
+    if (result.isNotEmpty) {
+      return UserModel.fromMap(result.first);
+    }
+    return null;
+  }
+
+  /// INSERT SISWA
+  Future<int> insertSiswa(SiswaModel siswa) async {
+    final db = await database;
+    return await db.insert('siswa', siswa.toMap());
+  }
+
+  /// GET ALL SISWA
+  Future<List<SiswaModel>> getAllSiswa() async {
+    final db = await database;
+    final result = await db.query('siswa');
+    return result.map((e) => SiswaModel.fromMap(e)).toList();
   }
 }

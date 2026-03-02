@@ -1,5 +1,8 @@
-import 'package:belajar_flutter_rezy/day_16/view/login_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:belajar_flutter_rezy/day_16/view/login_screen.dart';
+
+import '../models/user_model.dart';
+import '../database/sqflite.dart';
 
 class Register_Screen extends StatefulWidget {
   const Register_Screen({super.key});
@@ -9,36 +12,39 @@ class Register_Screen extends StatefulWidget {
 }
 
 class _Register_ScreenState extends State<Register_Screen> {
-
   final _formKey = GlobalKey<FormState>();
 
   final namaController = TextEditingController();
-  final emailController = TextEditingController();
+  final gmailController = TextEditingController();
   final passwordController = TextEditingController();
-  final hpController = TextEditingController();
 
   bool isObscure = true;
 
-  // REGEX PASSWORD
-  final passwordRegex =
-      RegExp(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$');
+  /// regex password
+  final passwordRegex = RegExp(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$');
 
-  void handleRegister() {
+  /// ===============================
+  /// REGISTER FUNCTION (FINAL)
+  /// ===============================
+  void handleRegister() async {
+    if (!_formKey.currentState!.validate()) return;
 
-    if (_formKey.currentState!.validate()) {
+    final user = UserModel(
+      nama: namaController.text.trim(),
+      gmail: gmailController.text.trim(),
+      password: passwordController.text.trim(),
+    );
+
+    try {
+      await DBHelper().insertUser(user);
+
+      if (!mounted) return;
 
       showDialog(
         context: context,
         builder: (_) => AlertDialog(
-          title: const Text("Data Pendaftaran"),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text("Nama: ${namaController.text}"),
-              Text("Email: ${emailController.text}"),
-            ],
-          ),
+          title: const Text("Berhasil"),
+          content: const Text("Akun berhasil dibuat"),
           actions: [
             TextButton(
               onPressed: () {
@@ -46,16 +52,18 @@ class _Register_ScreenState extends State<Register_Screen> {
 
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(
-                    builder: (_) => const LoginScreen(),
-                  ),
+                  MaterialPageRoute(builder: (_) => const LoginScreen()),
                 );
               },
-              child: const Text("Lanjut"),
-            )
+              child: const Text("Login"),
+            ),
           ],
         ),
       );
+    } catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text("Gmail sudah terdaftar")));
     }
   }
 
@@ -63,17 +71,14 @@ class _Register_ScreenState extends State<Register_Screen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(24.0),
+          padding: const EdgeInsets.all(24),
           child: Form(
             key: _formKey,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-
                 const SizedBox(height: 40),
 
                 Image.asset("assets/images/LogoTPQ.jpeg"),
@@ -98,7 +103,7 @@ class _Register_ScreenState extends State<Register_Screen> {
 
                 const SizedBox(height: 35),
 
-                /// NAMA
+                /// ================= NAMA
                 TextFormField(
                   controller: namaController,
                   decoration: InputDecoration(
@@ -107,31 +112,27 @@ class _Register_ScreenState extends State<Register_Screen> {
                       borderRadius: BorderRadius.circular(14),
                     ),
                   ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return "Nama wajib diisi";
-                    }
-                    return null;
-                  },
+                  validator: (value) =>
+                      value!.isEmpty ? "Nama wajib diisi" : null,
                 ),
 
                 const SizedBox(height: 18),
 
-                /// EMAIL
+                /// ================= GMAIL
                 TextFormField(
-                  controller: emailController,
+                  controller: gmailController,
                   decoration: InputDecoration(
-                    labelText: "Email",
+                    labelText: "Gmail",
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(14),
                     ),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return "Email wajib diisi";
+                      return "Gmail wajib diisi";
                     }
                     if (!value.contains("@gmail.com")) {
-                      return "Gunakan email @gmail.com";
+                      return "Gunakan gmail @gmail.com";
                     }
                     return null;
                   },
@@ -139,7 +140,7 @@ class _Register_ScreenState extends State<Register_Screen> {
 
                 const SizedBox(height: 18),
 
-                /// PASSWORD
+                /// ================= PASSWORD
                 TextFormField(
                   controller: passwordController,
                   obscureText: isObscure,
@@ -164,7 +165,7 @@ class _Register_ScreenState extends State<Register_Screen> {
                       return "Password wajib diisi";
                     }
                     if (!passwordRegex.hasMatch(value)) {
-                      return "Minimal 6 karakter & kombinasi huruf + angka";
+                      return "Minimal 6 karakter & huruf + angka";
                     }
                     return null;
                   },
@@ -172,9 +173,11 @@ class _Register_ScreenState extends State<Register_Screen> {
 
                 const SizedBox(height: 28),
 
+                /// ================= BUTTON
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
+                    onPressed: handleRegister,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF0F9D58),
                       foregroundColor: Colors.white,
@@ -183,13 +186,13 @@ class _Register_ScreenState extends State<Register_Screen> {
                         borderRadius: BorderRadius.circular(14),
                       ),
                     ),
-                    onPressed: handleRegister,
                     child: const Text(
                       "Daftar",
                       style: TextStyle(
                         fontFamily: "Poppins",
                         fontSize: 15,
-                        fontWeight: FontWeight.w600),
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                 ),
@@ -201,17 +204,13 @@ class _Register_ScreenState extends State<Register_Screen> {
                     onPressed: () {
                       Navigator.pushReplacement(
                         context,
-                          MaterialPageRoute(
-                          builder: (_) => const LoginScreen(),
-                        ),
+                        MaterialPageRoute(builder: (_) => const LoginScreen()),
                       );
                     },
                     child: const Text(
                       "Sudah punya akun? Login",
-                          style: TextStyle(
-                          fontFamily: "Poppins"
-                        ),
-                      ),
+                      style: TextStyle(fontFamily: "Poppins"),
+                    ),
                   ),
                 ),
               ],
