@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:belajar_flutter_rezy/day_16/view/dashboard_screen.dart';
-import 'package:belajar_flutter_rezy/day_16/view/cr_siswa.dart';
+import 'package:belajar_flutter_rezy/day_16&17&18/view/dashboard_screen.dart';
+import 'package:belajar_flutter_rezy/day_16&17&18/view/cr_siswa.dart';
 
 class BottomNavbar extends StatefulWidget {
   final String nama;

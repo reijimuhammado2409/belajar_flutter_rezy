@@ -21,6 +21,8 @@ class _DataSiswaScreenState extends State<DataSiswaScreen> {
 
   final formKey = GlobalKey<FormState>();
 
+  SiswaModel? selectedSiswa; // untuk mode edit
+
   /// LOAD DATA
   Future<void> loadData() async {
     siswaList = await db.getAllSiswa();
@@ -31,14 +33,29 @@ class _DataSiswaScreenState extends State<DataSiswaScreen> {
   Future<void> simpanData() async {
     if (!formKey.currentState!.validate()) return;
 
-    await db.insertSiswa(
-      SiswaModel(
-        nama: namaC.text,
-        email: emailC.text,
-        noHp: hpC.text,
-        kota: kotaC.text,
-      ),
-    );
+    if (selectedSiswa == null) {
+      /// INSERT
+      await db.insertSiswa(
+        SiswaModel(
+          nama: namaC.text,
+          email: emailC.text,
+          noHp: hpC.text,
+          kota: kotaC.text,
+        ),
+      );
+    } else {
+      ///UPDATE
+      await db.updateSiswa(
+        SiswaModel(
+          id: selectedSiswa!.id,
+          nama: namaC.text,
+          email: emailC.text,
+          noHp: hpC.text,
+          kota: kotaC.text,
+        ),
+      );
+      selectedSiswa = null;
+    }
 
     namaC.clear();
     emailC.clear();
@@ -89,7 +106,7 @@ class _DataSiswaScreenState extends State<DataSiswaScreen> {
 
                   ElevatedButton(
                     onPressed: simpanData,
-                    child: const Text("Simpan"),
+                    child: Text(selectedSiswa == null ? "Simpan" : "Update"),
                   ),
                 ],
               ),
@@ -108,7 +125,33 @@ class _DataSiswaScreenState extends State<DataSiswaScreen> {
                     child: ListTile(
                       title: Text(data.nama),
                       subtitle: Text("${data.email} • ${data.kota}"),
-                      trailing: Text(data.noHp),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          ///EDIT
+                          IconButton(
+                            icon: const Icon(Icons.edit, color: Colors.blue),
+                            onPressed: () {
+                              setState(() {
+                                selectedSiswa = data;
+                                namaC.text = data.nama;
+                                emailC.text = data.email;
+                                hpC.text = data.noHp;
+                                kotaC.text = data.kota;
+                              });
+                            },
+                          ),
+
+                          /// DELETE
+                          IconButton(
+                            icon: const Icon(Icons.delete, color: Colors.red),
+                            onPressed: () async {
+                              await DBHelper().deleteSiswa(data.id!);
+                              loadData();
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 },

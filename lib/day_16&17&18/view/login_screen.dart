@@ -1,4 +1,4 @@
-import 'package:belajar_flutter_rezy/day_16/view/navbar/bottomNavbar_screen.dart';
+import 'package:belajar_flutter_rezy/day_16&17&18/view/navbar/bottomNavbar_screen.dart';
 import 'package:flutter/material.dart';
 import '../database/preference.dart';
 import '../database/sqflite.dart';

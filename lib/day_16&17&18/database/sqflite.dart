@@ -99,4 +99,25 @@ class DBHelper {
     final result = await db.query('siswa');
     return result.map((e) => SiswaModel.fromMap(e)).toList();
   }
+
+  ///=================================
+  ///UPDATE SISWA
+  ///=================================
+  Future<int> updateSiswa(SiswaModel siswa) async {
+    final db = await database;
+    return await db.update(
+      'siswa',
+      siswa.toMap(),
+      where: 'id = ?',
+      whereArgs: [siswa.id],
+    );
+  }
+
+  ///==================================
+  ///DELETE SISWA
+  ///==================================
+  Future<int> deleteSiswa(int id) async {
+    final db = await database;
+    return await db.delete('siswa', where: 'id = ?', whereArgs: [id]);
+  }
 }

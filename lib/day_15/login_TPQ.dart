@@ -10,12 +10,10 @@ class Login_TPQ extends StatefulWidget {
   const Login_TPQ({super.key});
 
   @override
- 
   State<Login_TPQ> createState() => _Login_TPQState();
 }
 
 class _Login_TPQState extends State<Login_TPQ> {
-
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController emailController = TextEditingController();
@@ -25,7 +23,6 @@ class _Login_TPQState extends State<Login_TPQ> {
   bool isLoading = false;
 
   void handleLogin() async {
-
     if (!_formKey.currentState!.validate()) return;
 
     setState(() {
@@ -43,16 +40,14 @@ class _Login_TPQState extends State<Login_TPQ> {
 
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (_) => Dashboard_TPQ(
-        nama:  nama,
-        gmail: gmail,
-      ),),
+      MaterialPageRoute(
+        builder: (_) => Dashboard_TPQ(nama: nama, gmail: gmail),
+      ),
     );
   }
 
   @override
-
-   void dispose(){
+  void dispose() {
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
@@ -73,7 +68,6 @@ class _Login_TPQState extends State<Login_TPQ> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-
                   const SizedBox(height: 40),
 
                   Image.asset("assets/images/LogoTPQ.jpeg"),
@@ -179,7 +173,8 @@ class _Login_TPQState extends State<Login_TPQ> {
                               style: TextStyle(
                                 fontFamily: "Poppins",
                                 fontSize: 15,
-                                fontWeight: FontWeight.w600),
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                     ),
                   ),
@@ -191,7 +186,9 @@ class _Login_TPQState extends State<Login_TPQ> {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (_) => const Register_TPQ()),
+                          MaterialPageRoute(
+                            builder: (_) => const Register_TPQ(),
+                          ),
                         );
                       },
                       child: const Text(
